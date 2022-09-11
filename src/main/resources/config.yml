@@ -1,0 +1,5 @@
+command-description: "Verify your Discord account"
+code-option-name: "code" # Must be lowercase, will be turned into lowercase anyway.
+code-option-description: "4 digits code you received in-game"
+
+# There is no reload option, you will need to restart your server.

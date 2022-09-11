@@ -1,0 +1,7 @@
+name: SlashVerify
+version: '${project.version}'
+main: me.sen2y.slashverify.SlashVerify
+api-version: 1.19
+depend: [ DiscordSRV ]
+authors: [ sen2y ]
+description: Add a slash verify command to DiscordSRV
