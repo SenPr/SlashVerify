@@ -35,9 +35,10 @@ public final class SlashVerify extends JavaPlugin implements SlashCommandProvide
         ));
     }
 
-    @SlashCommand(path = "link", deferEphemeral = true)
+    @SlashCommand(path = "link")
     public void verifyCommand(SlashCommandEvent event) {
         String code = Objects.requireNonNull(event.getOption("code")).getAsString();
-        event.reply(DiscordSRV.getPlugin().getAccountLinkManager().process(code, event.getUser().getId())).queue();
+        event.reply(DiscordSRV.getPlugin().getAccountLinkManager().process(code, event.getUser().getId()))
+                .setEphemeral(this.getConfig().getBoolean("ephemeral-reply")).queue();
     }
 }
