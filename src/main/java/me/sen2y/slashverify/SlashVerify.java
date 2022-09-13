@@ -16,21 +16,27 @@ import java.util.Set;
 
 public final class SlashVerify extends JavaPlugin implements SlashCommandProvider {
 
+    private String alias;
+
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
+        alias = this.getConfig().getString("command-alias");
     }
 
     @Override
     public Set<PluginSlashCommand> getSlashCommands() {
         return new HashSet<>(Arrays.asList(
-                new PluginSlashCommand(this, new CommandData("link", this.getConfig().getString("command-description"))
+                new PluginSlashCommand(this, new CommandData(alias, this.getConfig().getString("command-description"))
                         .addOption(OptionType.STRING, this.getConfig().getString("code-option-name"), this.getConfig().getString("code-option-description"), true))
         ));
     }
 
-    @SlashCommand(path = "link")
+    @SlashCommand(path = "*")
     public void verifyCommand(SlashCommandEvent event) {
+        if (!event.getCommandPath().equalsIgnoreCase(alias)) {
+            return;
+        }
         String code = Objects.requireNonNull(event.getOption("code")).getAsString();
         event.reply(DiscordSRV.getPlugin().getAccountLinkManager().process(code, event.getUser().getId()))
                 .setEphemeral(this.getConfig().getBoolean("ephemeral-reply")).queue();
